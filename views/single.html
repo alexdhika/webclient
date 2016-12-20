@@ -1,0 +1,132 @@
+<!---->
+<div class="single">
+<div class="container">
+    <div class="col-md-9">
+        <div class="col-md-5 grid">
+		  <div class="flexslider">
+			  <ul class="slides">
+                  <li data-thumb="{{images}}">
+                        <div class="thumb-image"> <img src="{{images}}" data-imagezoom="true" class="img-responsive" style="width:295px;"> </div>
+                  </li>
+                  <ol class="flex-control-nav flex-control-thumbs" style="width:300px;height:200px;" ng-show="showThumb">
+                      <li ng-repeat="r in image" data-thumb="{{r}}">
+                        <div class="thumb-image"> <img ng-src="{{r}}" class="img-responsive" ng-click="changeImage(r)" style="width:{{width}};height:{{height}};" alt="image.altName"> </div>
+                      </li>
+                  </ol>
+			  </ul>
+		  </div>
+	   </div>	
+        <div class="col-md-7 single-top-in">
+            <div class="single-para simpleCart_shelfItem">
+                <h1>{{prd.name}}</h1>
+                <p ng-bind-html="prd.thisCanBeusedInsideNgBindHtml"></p>
+                <label  class="add-to item_price" ng-repeat="y in prd.R_option">{{y.key}} : {{y.value | currency : "Rp." : 0}}</label>
+                <div class="star-on">
+                    <ul>
+                        <li><a href="#"><i class="glyphicon glyphicon-star"> </i></a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-star"> </i></a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-star"> </i></a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-star"> </i></a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-star"> </i></a></li>
+                    </ul>
+                    <div class="review">
+                        <a href="#"> 3 reviews </a>/
+                        <a href="#">  Write a review</a>
+                    </div>
+                <div class="clearfix"> </div>
+                </div>
+
+
+                <div class="available" style="padding-bottom:1px;padding-top:1px;">
+                    <h6>In Stock :</h6>
+                    <span>{{prd.stock + ' ' + prd.R_units.unit}}</span>
+                </div>
+                <div ng-show="showCat">	
+                    <div class="available" style="padding-bottom:1px;padding-top:1px;"><h6>Categories :</h6></div>
+                        <div class="tags" style="padding-top:1px;">
+                            <ul>
+                                <li><a href="#">{{prd.R_categories.name}}</a></li>
+                                <li><a href="#">fashion</a></li>
+                                <div class="clearfix"> </div>
+                            </ul>
+                        </div>
+                    <a href="#" class="cart item_add">More details</a>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+        <div class="content-top1">
+            <div class="col-md-4 col-md3" ng-repeat="r in prod">
+                <div class="col-md1 simpleCart_shelfItem">
+                    <a href="#/product/{{r.id}}">
+                        <img class="img-responsive" src="{{r.image2}}" alt="{{r.altName2}}" style="width:{{width2}};height:{{height2}}"/>
+                    </a>
+                    <h3><a href="#/product/{{r.id}}">{{r.name}}</a></h3>
+                    <div class="price">
+                            <h5 class="item_price">{{r.R_option[0].value | currency : "Rp." : 0}}</h5>
+                            <a href="#/product/{{r.id}}" class="item_add">Detail</a>
+                            <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>	
+        <div class="clearfix"> </div>
+        </div>
+    </div>
+    <!----->
+    <div class="col-md-3 product-bottom">
+                    <!--initiate accordion-->
+                            <script type="text/javascript">
+                                $(function() {
+                                    var menu_ul = $('.menu-drop > li > ul'),
+                                           menu_a  = $('.menu-drop > li > a');
+                                    menu_ul.hide();
+                                    menu_a.click(function(e) {
+                                        e.preventDefault();
+                                        if(!$(this).hasClass('active')) {
+                                            menu_a.removeClass('active');
+                                            menu_ul.filter(':visible').slideUp('normal');
+                                            $(this).addClass('active').next().stop(true,true).slideDown('normal');
+                                        } else {
+                                            $(this).removeClass('active');
+                                            $(this).next().stop(true,true).slideUp('normal');
+                                        }
+                                    });
+
+                                });
+                            </script>
+    <!--//menu-->
+    <!--seller-->
+                    <div class="product-bottom">
+                        <h3 class="cate">Best Sellers</h3>
+                        <div class="product-go" ng-repeat="r in prds">
+                            <div class=" fashion-grid">
+                                <a href="#/product/{{r.id}}"><img class="img-responsive " src="{{r.image3}}" alt="{{r.altName3}}"></a>	
+                            </div>
+                            <div class=" fashion-grid1">
+                                <span>{{r.name}}</span><h6 class="best2"><a href="#/product/{{r.id}}" ng-bind-html="r.thisCanBeusedInsideNgBindHtml"></a></h6>
+                                <span class=" price-in1">{{r.R_option[0].value | currency : "Rp." : 0}}</span>
+                            </div>	
+                            <div class="clearfix"> </div>
+                        </div>	
+                    </div>
+    </div>
+
+<!--//seller-->
+<!--tag-->
+    <div class="col-md-5 product-bottom">
+        <center>
+            <div class="tag">	
+                <h3 class="cate">Categories</h3>
+                <div class="tags">
+                    <ul>
+                        <li ng-repeat="r in cat"><a href="#">{{r.name}}</a></li>
+                        <div class="clearfix"> </div>
+                    </ul>
+                </div>					
+            </div>
+            <div class="clearfix"> </div>
+        </center>
+    </div>
+</div>
+</div>
+<!-- slide -->

@@ -1,0 +1,30 @@
+    <div class="container">
+		<div class="content-top">
+			<h1>Recent Products</h1>
+				<div class="col-md-3 col-md2 product" dir-paginate="r in prd | itemsPerPage:pS" current-page="cP" total-items="total_count">
+					<div class="col-md1 simpleCart_shelfItem">
+						<a href="#/product/{{r.id}}" ng-init="theImage=(r.R_productFile[0].valueImage)?r.R_productFile[0].valueImage:'no-image.png'">
+							<img class="img-responsive" ng-src="{{imageUrl + theImage}}" alt="{{r.name}}" style="height:200px;" />
+						</a>
+						<h3><a href="#/product/{{r.id}}">{{r.name}}</a></h3>
+						<div class="price">
+								<h5 class="item_price">{{r.R_option[0].value | currency : "Rp." : 0}}</h5>
+								<a href="#/product/{{r.id}}" class="item_add">Detail</a>
+								<div class="clearfix"> </div>
+						</div>
+					</div>
+				</div>
+        </div>
+	</div>
+    <div>
+        <center>
+            <dir-pagination-controls
+               max-size="1000"
+               direction-links="true"
+               boundary-links="true"
+               template-url="views/paginTemplate.html"
+               on-page-change="getData(newPageNumber)">
+            </dir-pagination-controls>
+        </center>
+    </div>
+
