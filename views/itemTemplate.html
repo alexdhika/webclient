@@ -1,0 +1,21 @@
+
+<div ng-repeat="r in slideItem">
+    <div class="col-md-4 col-md3">
+        <div class="col-md1 simpleCart_shelfItem">
+            <a href="#/product/{{r.id}}">
+                <img class="img-responsive" src="{{r.image2}}" alt="{{r.altName2}}" style="width:215px;height:215px"/>
+            </a>
+            <h3><a href="#/product/{{r.id}}">{{r.name}}</a></h3>
+            <div class="price">
+                    <h5 class="item_price">{{r.R_option[0].value | currency : "Rp." : 0}}</h5>
+                    <a href="#/product/{{r.id}}" class="item_add">Detail</a>
+                    <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div>
+  <img ng-src="{{slideItem.src}}" >
+</div>-->

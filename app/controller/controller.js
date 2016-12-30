@@ -8,51 +8,44 @@ function home($s,P,$q,$route,$l){
     $s.userId = "582fbd9cfc130396ed91d8e5";
     $s.cP = 1;
     $s.pS = 4;
-    $s.prd = [];
     $s.getData = function(pageno){
+        $s.prd = [];
         P.getAll({userId: $s.userId ,cursor: pageno, item: $s.pS},function(e,r){
             if(r){
-                $s.imageUrl = r.baseImage;
-                $s.prd = r.data;
-                console.log($s.prd);
-                console.log($s.imageUrl);
-                
+                if(typeof(r.data.name) !== 'undefined'){
+                    $s.imageUrl = r.baseImage;
+                    $s.prd = r.data;
+                }
+                else{
+                    $s.imageUrl = r.baseImage;
+                    for(var y=0;y<r.data.length;y++){
+                        $s.prd.push(r.data[y]);
+                    }
+                }
             }
         });
     };
-    
+    $s.getData(1);
     P.count({userId: $s.userId},function(e,res){
         if(res){
-            console.log(res.data);
             $s.total_count = res.data;
         }
     });
-    
-    $s.getData(1);
-    
     
 }
 
 single.$inject = ['$scope','Products','$q','$routeParams','$location','$sce'];
 function single($s,P,$q,$route,$l,$sce){
-    console.log($route.id);
     $s.userId = "582fbd9cfc130396ed91d8e5";
-    $s.prd = [];
     P.getOne({productId: $route.id},function(e,r){
         if(r){
             $s.showThumb = true;
             $s.image = [];
             $s.nick = [];
-            console.log(r);
             $s.imageUrl = r.baseImage;
-            
             $s.prd = r.data[0];
-            
             $s.thisCanBeusedInsideNgBindHtml = $sce.trustAsHtml($s.prd.spesification);
             $s.prd.thisCanBeusedInsideNgBindHtml = $s.thisCanBeusedInsideNgBindHtml;
-            
-            console.log($s.prd);
-            
             if($s.prd.category == 0){
                 $s.showCat = false;
             }
@@ -63,7 +56,7 @@ function single($s,P,$q,$route,$l,$sce){
             $s.ln = $s.prd.R_productFile.length;
             if($s.prd.R_productFile.length !== 0){
                 for(var i = 0;i<$s.ln;i++){
-                    $s.image.push($s.imageUrl+$s.prd.R_productFile[i].valueImage);
+                    $s.image.push($s.imageUrl+$s.prd.ownerId+"/"+$s.prd.R_productFile[i].valueImage);
                 };
             }
             else if($s.prd.R_productFile.length == 0){
@@ -71,59 +64,99 @@ function single($s,P,$q,$route,$l,$sce){
             }
             $s.resize($s.image.length);
             $s.images = $s.image[0];
-                console.log($s.image);
         }
     });
-    
     $s.prd = [];
     $s.getData = function(pageno){
-        P.getAll({userId: $s.userId, cursor: pageno, item: 3},function(e,r){
-            if(r){
-                $s.width2 = "215px";
-                $s.height2 = "215px";
-                $s.imageUrl = r.baseImage;
-                $s.prod = r.data;
-                $s.len = $s.prod.length;
-                for(var t=0;t<$s.len;t++){
-                    if($s.prod[t].R_productFile.length !== 0){
-                        $s.prod[t].altName2 = $s.prod[t].R_productFile[0].valueImage;
-                        $s.prod[t].image2 = $s.imageUrl+$s.prod[t].R_productFile[0].valueImage;
+        P.count({userId: $s.userId},function(e,res){
+            if(res){
+                $s.total_count = res.data;
+                $s.prdx = [];
+                $s.prs = [];
+                $s.prdz = [];
+                P.getAll({userId: $s.userId, cursor: pageno, item: $s.total_count},function(e,r){
+                    if(r){
+                        $s.width2 = "215px";
+                        $s.height2 = "215px";
+                        $s.imageUrl = r.baseImage;
+                        $s.prod = r.data;
+                        $s.len = $s.prod.length;
+                        for(var t=0;t<$s.len;t++){
+                            if($s.prod[t].R_productFile.length !== 0){
+                                $s.prod[t].altName2 = $s.prod[t].R_productFile[0].valueImage;
+                                $s.prod[t].image2 = $s.imageUrl+$s.prod[t].ownerId+"/"+$s.prod[t].R_productFile[0].valueImage;
+                            }
+                            else{
+                                $s.prod[t].altName2 = 'no-image.png';
+                                $s.prod[t].image2 = $s.imageUrl+'no-image.png';
+                            }
+                        };
+                        if($s.len % 3 == 0){
+                            $s.l = $s.len / 3;
+                            for(var n=0;n<$s.l;n++){
+                                if(n !== $s.l){
+                                    for(var y=n*3;y<(n+1)*3;y++){
+                                        $s.prdx.push($s.prod[y]);
+                                        if($s.prdx.length == 3){
+                                            $s.prs.push($s.prdx);
+                                            $s.prdx = [];
+                                        }
+                                    };
+                                }
+                            };
+                        }
+                        else{
+                            $s.l = $s.len / 3;
+                            $s.a = Math.trunc($s.l);
+                            $s.b = $s.a+1;
+                            for(var n=0;n<$s.b;n++){
+                                if(n !== $s.b){
+                                    for(var y=n*3;y<(n+1)*3;y++){
+                                        $s.prdx.push($s.prod[y]);
+                                        if($s.prdx.length == 3){
+                                            for(var z=0;z<$s.prdx.length;z++){
+                                                if(typeof($s.prdx[z]) == 'undefined'){
+                                                    $s.prdx.splice(z, 2);
+                                                }
+                                            };
+                                            $s.prs.push($s.prdx);
+                                            $s.prdx = [];
+                                        }
+                                    };
+                                }
+                            };
+                        }
                     }
-                    else{
-                        $s.prod[t].altName2 = 'no-image.png';
-                        $s.prod[t].image2 = $s.imageUrl+'no-image.png';
+                            $s.pr = [];
+                            $s.pr.push($s.prs);
+                });
+
+                P.getAll({userId: $s.userId, cursor: pageno, item: 5},function(e,r){
+                    if(r){
+                        $s.width3 = "50px";
+                        $s.height3 = "50px";
+                        $s.imageUrl = r.baseImage;
+                        $s.prds = r.data;
+                        $s.len = $s.prds.length;
+                        for(var t=0;t<$s.len;t++){
+                            $s.thisCanBeusedInsideNgBindHtml = $sce.trustAsHtml($s.prds[t].spesification);
+                            $s.prds[t].thisCanBeusedInsideNgBindHtml = $s.thisCanBeusedInsideNgBindHtml;
+                            if($s.prds[t].R_productFile.length !== 0){
+                                $s.prds[t].altName3 = $s.prds[t].R_productFile[0].valueImage;
+                                $s.prds[t].image3 = $s.imageUrl+$s.prds[t].ownerId+"/"+$s.prds[t].R_productFile[0].valueImage;
+                            }
+                            else{
+                                $s.prds[t].altName3 = 'no-image.png';
+                                $s.prds[t].image3 = $s.imageUrl+'no-image.png';
+                            }
+                        };
                     }
-                };
-                console.log($s.prod);
+                });
             }
         });
         
-        P.getAll({userId: $s.userId, cursor: pageno, item: 5},function(e,r){
-            if(r){
-                $s.width3 = "50px";
-                $s.height3 = "50px";
-                $s.imageUrl = r.baseImage;
-                $s.prds = r.data;
-                $s.len = $s.prds.length;
-                for(var t=0;t<$s.len;t++){
-                    $s.thisCanBeusedInsideNgBindHtml = $sce.trustAsHtml($s.prds[t].spesification);
-                    $s.prds[t].thisCanBeusedInsideNgBindHtml = $s.thisCanBeusedInsideNgBindHtml;
-                    if($s.prds[t].R_productFile.length !== 0){
-                        $s.prds[t].altName3 = $s.prds[t].R_productFile[0].valueImage;
-                        $s.prds[t].image3 = $s.imageUrl+$s.prds[t].R_productFile[0].valueImage;
-                    }
-                    else{
-                        $s.prds[t].altName3 = 'no-image.png';
-                        $s.prds[t].image3 = $s.imageUrl+'no-image.png';
-                    }
-                };
-                console.log($s.prds);
-            }
-        });
     };
-    
     $s.getData(1);
-    
     $s.changeImage = function(input){
         $s.images = input;
     };
@@ -140,13 +173,7 @@ function single($s,P,$q,$route,$l,$sce){
     
     P.getCat({},function(e,r){
         if(r){
-            console.log('categories---------------');
-            console.log(r.data);
             $s.cat = r.data;
         }
     });
-    
-    
 }
-
-/*tampilan masih semrawut bagian margin dan padding dan untuk col med 3 atau col bottom masih belum bisa disamping seharusnya tempatnya disamping*/

@@ -3,6 +3,8 @@ var app=angular
     , 'ngRoute'
     , 'angularUtils.directives.dirPagination'
     , 'ngSanitize'
+    , 'jkAngularCarousel'
+    , 'ngMaterial'
   ])
   .config(function($routeProvider,
       $locationProvider) {

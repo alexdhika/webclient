@@ -3,19 +3,21 @@
 <div class="container">
     <div class="col-md-9">
         <div class="col-md-5 grid">
-		  <div class="flexslider">
-			  <ul class="slides">
+          <div class="flexslider">
+              <ul class="slides">
                   <li data-thumb="{{images}}">
-                        <div class="thumb-image"> <img src="{{images}}" data-imagezoom="true" class="img-responsive" style="width:295px;"> </div>
+                        <div class="thumb-image"> <img src="{{images}}" data-imagezoom="true" class="img-responsive" style="width:295px;height:265px;"> </div>
                   </li>
                   <ol class="flex-control-nav flex-control-thumbs" style="width:300px;height:200px;" ng-show="showThumb">
                       <li ng-repeat="r in image" data-thumb="{{r}}">
-                        <div class="thumb-image"> <img ng-src="{{r}}" class="img-responsive" ng-click="changeImage(r)" style="width:{{width}};height:{{height}};" alt="image.altName"> </div>
+                        <div class="thumb-image">
+                            <img ng-src="{{r}}" class="img-responsive" ng-click="changeImage(r)" style="width:{{width}};height:{{height}};" alt="image.altName"> 
+                        </div>
                       </li>
                   </ol>
-			  </ul>
-		  </div>
-	   </div>	
+              </ul>
+          </div>
+        </div>
         <div class="col-md-7 single-top-in">
             <div class="single-para simpleCart_shelfItem">
                 <h1>{{prd.name}}</h1>
@@ -46,7 +48,6 @@
                         <div class="tags" style="padding-top:1px;">
                             <ul>
                                 <li><a href="#">{{prd.R_categories.name}}</a></li>
-                                <li><a href="#">fashion</a></li>
                                 <div class="clearfix"> </div>
                             </ul>
                         </div>
@@ -55,22 +56,22 @@
             </div>
         </div>
         <div class="clearfix"> </div>
-        <div class="content-top1">
-            <div class="col-md-4 col-md3" ng-repeat="r in prod">
-                <div class="col-md1 simpleCart_shelfItem">
-                    <a href="#/product/{{r.id}}">
-                        <img class="img-responsive" src="{{r.image2}}" alt="{{r.altName2}}" style="width:{{width2}};height:{{height2}}"/>
-                    </a>
-                    <h3><a href="#/product/{{r.id}}">{{r.name}}</a></h3>
-                    <div class="price">
-                            <h5 class="item_price">{{r.R_option[0].value | currency : "Rp." : 0}}</h5>
-                            <a href="#/product/{{r.id}}" class="item_add">Detail</a>
-                            <div class="clearfix"> </div>
-                    </div>
-                </div>
-            </div>	
-        <div class="clearfix"> </div>
+        <div class="col-md-12">
+            <div class="content-top" style="padding-bottom:0px">
+                <h1>Recomended Products</h1>
+                <center>
+                  <jk-carousel
+                    data="pr[0]"
+                    item-template-url="'/views/itemTemplate.html'"
+                    max-width="680" 
+                    max-height="410"
+                    auto-slide="true"
+                    auto-slide-time="5000">
+                  </jk-carousel>
+                </center>
+            </div>
         </div>
+        <div class="clearfix"> </div>
     </div>
     <!----->
     <div class="col-md-3 product-bottom">
@@ -113,10 +114,11 @@
 
 <!--//seller-->
 <!--tag-->
-    <div class="col-md-5 product-bottom">
-        <center>
+    <div class="col-md-12 product-bottom">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
             <div class="tag">	
-                <h3 class="cate">Categories</h3>
+                <center><h3 class="cate">Categories</h3></center>
                 <div class="tags">
                     <ul>
                         <li ng-repeat="r in cat"><a href="#">{{r.name}}</a></li>
@@ -125,7 +127,8 @@
                 </div>					
             </div>
             <div class="clearfix"> </div>
-        </center>
+        </div>
+        <div class="col-md-3"></div>
     </div>
 </div>
 </div>
